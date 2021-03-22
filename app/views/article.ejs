@@ -1,0 +1,101 @@
+<%- include('partials/header') %>
+
+    <div class="row">
+
+    <%- include('partials/leftMenu') %>
+
+
+      <article class="col-lg-9" itemscope itemtype="http://schema.org/Product">
+
+        <div class="row">
+          <div class="col-lg-6">
+            <img itemprop="image" class="" src="/images/<%=figurine.name.toLowerCase()%>.png" alt="Image de figurine <%=figurine.name%>">
+          </div>
+
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="card-body">
+                  <h3 class="card-title" itemprop="name">
+                    <%=figurine.name%>
+                    <div itemprop="category" class="badge badge-pill badge-<%=figurine.category.toLowerCase()%>"><%=figurine.category%></div>
+                  </h3>
+                  <p class="card-text" itemprop="height" itemscope itemtype="https://schema.org/QuantitativeValue">Taille réelle : <span itemprop="value"><%=figurine.size%></span> <meta itemprop="unitCode" content="CMT">cm</p>
+                  <p itemprop="description" class="card-text"><%=figurine.description%></p>
+                  <p class="card-text" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+                    <meta itemprop="worstRating" content="0">
+                    <meta itemprop="bestRating" content="5">
+                    <meta itemprop="ratingValue" content="<%=figurine.avgnote%>">
+                    Note moyenne : <% for(let index=1; index<=5;index++) { %>
+                      <% if(index <= figurine.avgnote) { %>
+                        &#9733;
+                      <% } else { %>
+                        &#9734;
+                     <% } %>
+                    <% } %>
+                    <br>
+                    <a href="#" data-toggle="modal" data-target="#reviewsModal">Détails des avis</a>
+                  </p>
+                  <h4 class="h5" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+                    <span itemprop="priceCurrency">€</span>
+                    <span itemprop="price"><%=figurine.price%></span>
+                  </h4>
+                  <p class="card-text">
+                    <a href="/bookmarks/add/<%=figurine.id%>" class="link-add-bookmarks">+ Ajouter aux favoris</a>
+                  </p>
+              </div>
+            </div>
+          
+          </div>
+
+        </div>
+        <!-- /.row -->
+
+      </article>
+      <!-- /.col-lg-9 -->
+
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+
+   <!-- Modale des avis -->
+   <div class="modal fade" id="reviewsModal" tabindex="-1" role="dialog" aria-labelledby="reviewsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <header class="modal-header">
+          <h3 class="modal-title" id="reviewsModalLabel">Avis des internautes</h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </header>
+        <div class="modal-body">
+
+          <% for(const review of reviews) { %>
+          <section>
+            <h4 class="h5"><%=review.title%> &nbsp; <span class="small text-muted">
+              <% for(let index=1; index<=5;index++) { %>
+                <% if(index <= review.note) { %>
+                  &#9733;
+                <% } else { %>
+                  &#9734;
+               <% } %>
+              <% } %>
+                </span></h4>
+            <p class="review-author">par <%=review.author%></p>
+            <p><%=review.message%></p>
+          </section>
+
+          <hr>
+        <% } %>
+         
+
+        </div>
+        <footer class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+<%- include('partials/footer') %>
